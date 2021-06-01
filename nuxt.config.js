@@ -21,7 +21,8 @@ export default {
   css: [
     '~assets/global.css',
     '~assets/index.css',
-    'element-ui/lib/theme-chalk/index.css'
+    'element-ui/lib/theme-chalk/index.css',
+    "vue-typed-js/dist/vue-typed-js.css"
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -29,6 +30,8 @@ export default {
     '@/plugins/antd-ui',
     { src: '@/plugins/element-ui.js', ssr: true },
     { src: "~plugins/axios.js", ssr: true },
+    { src: "~plugins/vue-typed-js.js", ssr: true },
+
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -71,7 +74,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    vendor: ['element-ui', 'external_library', 'axios'],
+    vendor: ['element-ui', 'external_library', 'axios', 'vue-typed-js.js'],
     transpile: ['vue-clamp', 'resize-detector']
   }
 }

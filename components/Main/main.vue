@@ -96,22 +96,24 @@
   </div>
 </template>
 
-<script lang='ts'>
+<script >
 import Vue from "vue";
 import { mapState } from "vuex";
 import User from "../User/user.vue";
 import truncate from "html-truncate";
 import { time } from "~/assets/time.js";
-export default Vue.extend({
+
+export default {
   components: { User },
   props: {
     classify: {
       type: String,
     },
   },
-  data() {
+  data: () => {
+    const loading = true;
     return {
-      loading: true,
+      loading,
     };
   },
   //生命周期 - 创建完成（访问当前this实例）
@@ -122,8 +124,8 @@ export default Vue.extend({
   },
   computed: {
     ...mapState("home", {
-      articlesList: (state: any) => state.articlesList,
-      classifyList: (state: any) => state.classifyList,
+      articlesList: (state) => state.articlesList,
+      classifyList: (state) => state.classifyList,
     }),
     list() {
       if (this.$route.params.classify) {
@@ -158,23 +160,20 @@ export default Vue.extend({
         console.log(2);
       }
     },
-    truncate1(param: any, length: any, options: any) {
+    truncate1(param, length, options) {
       return truncate(param, length, options);
     },
-    time(row: any) {
+    time(row) {
       return time(row);
     },
-    getTopTagTxt(list: []) {
-      interface item {
-        top: boolean;
-      }
-      list.find((item: item) => {
+    getTopTagTxt(list) {
+      list.find((item) => {
         console.log(item);
         return item;
       });
     },
   },
-});
+};
 </script>
 <style scoped lang='sass'>
 </style>

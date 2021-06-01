@@ -8,7 +8,13 @@
         </div>
         <div class="about">
           <span class="name"> {{ data.nickName }} </span>
-          <p class="signature">{{ data.email }}</p>
+          <vue-typed-js
+            :strings="[data.aboutMe]"
+            :typeSpeed="150"
+            :showCursor="false"
+          >
+            <p class="signature typing" ref="aboutMe" v-if="data.aboutMe"></p>
+          </vue-typed-js>
         </div>
       </div>
     </div>
@@ -30,7 +36,7 @@
       </ul>
     </div>
     <div class="followMe"></div>
-    <div class="ad" ref="b">
+    <div class="ad" ref="ad">
       <div>
         <img src="~/static/pc_header.webp" alt="" />
       </div>
@@ -59,22 +65,34 @@ export default Vue.extend({
     );
     this.allCount = await this.$axios.get("/mine/api/getAllCount");
     this.listcount = await this.$axios.get("/web/api/articles/list");
-
     this.scroll();
   },
   methods: {
+    throttle(fn: Function, wait: number) {
+      let timer: any = null;
+      return (...arg: any) => {
+        if (!timer) {
+          timer = setTimeout(() => {
+            fn(...arg);
+            timer = null;
+          }, wait);
+        }
+      };
+    },
     scroll() {
-      const ad = <HTMLElement>this.$refs.b;
-      document.addEventListener("scroll", function (e) {
-        setTimeout(() => {
-          if (window.scrollY > 330) {
-            ad.style.position = "fixed";
-            ad.style.top = 50 + "px";
-            ad.style.width = 232 + "px";
-          } else {
-            ad.style.position = "static";
-          }
-        }, 0);
+      this.$nextTick(() => {
+        const ad = <HTMLElement>this.$refs.ad;
+        document.addEventListener("scroll", function (e) {
+          setTimeout(() => {
+            if (window.scrollY > 330) {
+              ad.style.position = "fixed";
+              ad.style.top = 50 + "px";
+              ad.style.width = 232 + "px";
+            } else {
+              ad.style.position = "static";
+            }
+          }, 0);
+        });
       });
     },
   },
